@@ -1,5 +1,5 @@
 import { ParsedCronTime } from './parseCronTime.types';
-export type CronSchedulerProps = {
+export type CronSchedulerOptions = {
     /**
      * Cron expression.
      *
@@ -35,11 +35,10 @@ export declare class CronScheduler {
     readonly nextDate: Date | null;
     readonly _cronTimeParsed: ParsedCronTime;
     readonly _randomFunction: () => number;
-    onTick: CronSchedulerProps['onTick'];
-    onStart?: CronSchedulerProps['onStart'];
-    onStop?: CronSchedulerProps['onStop'];
-    constructor(props: CronSchedulerProps);
+    onTick: CronSchedulerOptions['onTick'];
+    onStart?: CronSchedulerOptions['onStart'];
+    onStop?: CronSchedulerOptions['onStop'];
+    constructor(props: CronSchedulerOptions);
     start(): void;
     stop(): void;
 }
-export declare function newCronScheduler(params: CronSchedulerProps): CronScheduler;

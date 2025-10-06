@@ -58,4 +58,3 @@ export declare class ParsedDate {
     seconds(setSeconds?: number): number;
     milliseconds(setMilliseconds?: number): number;
 }
-export declare function parseDate(date?: Date | null, timeZone?: string): ParsedDate;

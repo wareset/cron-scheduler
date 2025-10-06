@@ -194,13 +194,13 @@ function parseFieldBySlashAndDash(
 }
 
 function parseSeconds(s: string) {
-  return parseFieldBySlashAndDash(0, s, 0, 59, 60)
+  return parseFieldBySlashAndDash(0, s, 0, 59, 59)
 }
 function parseMinutes(s: string) {
-  return parseFieldBySlashAndDash(1, s, 0, 59, 60)
+  return parseFieldBySlashAndDash(1, s, 0, 59, 59)
 }
 function parseHours(s: string) {
-  return parseFieldBySlashAndDash(2, s, 0, 23, 24)
+  return parseFieldBySlashAndDash(2, s, 0, 23, 23)
 }
 function parseDaysOfMonth(s: string) {
   return parseFieldBySlashAndDash(3, s, 1, 31, 31)

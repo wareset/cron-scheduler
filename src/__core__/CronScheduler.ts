@@ -33,7 +33,7 @@ function startCronScheduler(iam: CronScheduler) {
   )
 }
 
-export type CronSchedulerProps = {
+export type CronSchedulerOptions = {
   /**
    * Cron expression.
    *
@@ -53,15 +53,15 @@ export type CronSchedulerProps = {
    */
   start?: boolean
 
+  /**
+   * Seed for random function.
+   * If undefined, the "Math.random" will be used.
+   */
+  seedForRandom?: number
+
   onTick: (this: CronScheduler) => any
   onStart?: (this: CronScheduler) => any
   onStop?: (this: CronScheduler) => any
-
-  /**
-   * Seed for random function.
-   * If undefined or 0, the "Math.random" will be used.
-   */
-  seedForRandom?: number
 }
 
 export class CronScheduler {
@@ -77,20 +77,19 @@ export class CronScheduler {
   readonly _cronTimeParsed: ParsedCronTime
   readonly _randomFunction: () => number
 
-  onTick: CronSchedulerProps['onTick']
-  onStart?: CronSchedulerProps['onStart']
-  onStop?: CronSchedulerProps['onStop']
+  onTick: CronSchedulerOptions['onTick']
+  onStart?: CronSchedulerOptions['onStart']
+  onStop?: CronSchedulerOptions['onStop']
 
-  constructor(props: CronSchedulerProps) {
+  constructor(props: CronSchedulerOptions) {
     this._timeZone = props.timeZone
     this._cronTimeParsed = parseCronTime((this._cronTime = props.cronTime))
     this.nextDate = this._timeoutId = null
     this.started = false
 
     const seedForRandom = props.seedForRandom
-    this._randomFunction = seedForRandom
-      ? createSeededRandom(seedForRandom)
-      : Math.random
+    this._randomFunction =
+      seedForRandom === void 0 ? Math.random : createSeededRandom(seedForRandom)
 
     this.onTick = props.onTick
     this.onStart = props.onStart
@@ -131,8 +130,4 @@ export class CronScheduler {
       }
     }
   }
-}
-
-export function newCronScheduler(params: CronSchedulerProps) {
-  return new CronScheduler(params)
 }

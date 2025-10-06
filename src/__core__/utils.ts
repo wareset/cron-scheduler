@@ -11,19 +11,17 @@ export function throwError(error: string): never {
   throw e
 }
 
-// /*@__NO_SIDE_EFFECTS__*/
 export function integerMinMax(value: number, min: number, max: number) {
-  return (value * (max - min) + min) | 0
+  return (value * (max - min + 1) + min) | 0
 }
 
-// https://github.com/zeh/prando/blob/main/src/Prando.ts
+// http://www.jstatsoft.org/v08/i14/paper
 function xorShift(value: number): number {
   value ^= value << 13
   value ^= value >> 17
   value ^= value << 5
   return value
 }
-/*@__NO_SIDE_EFFECTS__*/
 export function createSeededRandom(seed?: number) {
   ;(seed && isFinite(seed)) || (seed = 1)
   return function () {

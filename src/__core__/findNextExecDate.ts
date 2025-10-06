@@ -1,4 +1,4 @@
-import { parseDate, ParsedDate } from './parseDate'
+import { ParsedDate } from './ParseDate'
 import {
   ParsedCronTime,
   ParsedCronTimeFieldData,
@@ -20,7 +20,7 @@ export function findNextExecDate(
   random?: () => number
 ) {
   const rules: ParsedCronTimeFieldRules[] = []
-  const parsedDate = parseDate(prevDate, timeZone)
+  const parsedDate = new ParsedDate(prevDate, timeZone)
   parsedDate.milliseconds(1000)
 
   iteratesCount = 0

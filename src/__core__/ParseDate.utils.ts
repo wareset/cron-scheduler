@@ -1,4 +1,4 @@
-import type { ParsedDate } from './parseDate'
+import type { ParsedDate } from './ParseDate'
 
 import { throwError } from './utils'
 

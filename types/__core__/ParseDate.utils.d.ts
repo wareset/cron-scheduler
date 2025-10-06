@@ -1,4 +1,4 @@
-import type { ParsedDate } from './parseDate';
+import type { ParsedDate } from './ParseDate';
 export declare const FORMAT_OPTIONS: Intl.DateTimeFormatOptions;
 export declare function createDTF(timeZone?: string): string;
 export declare function updateParsedDate(iam: ParsedDate): void;

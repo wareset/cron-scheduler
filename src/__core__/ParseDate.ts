@@ -3,9 +3,8 @@ import {
   createDTF,
   updateParsedDate,
   updateAndFixOffsetAfterChange,
-} from './parseDate.utils'
+} from './ParseDate.utils'
 
-/*@__NO_SIDE_EFFECTS__*/
 export class ParsedDate {
   /**
    * Объект Date: new Date(+date?)
@@ -139,9 +138,4 @@ export class ParsedDate {
     }
     return this.t
   }
-}
-
-/*@__NO_SIDE_EFFECTS__*/
-export function parseDate(date?: Date | null, timeZone?: string) {
-  return new ParsedDate(date, timeZone)
 }
