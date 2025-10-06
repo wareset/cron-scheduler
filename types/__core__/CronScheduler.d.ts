@@ -18,14 +18,14 @@ export type CronSchedulerOptions = {
      * Default: true
      */
     start?: boolean;
+    /**
+     * Seed for random function.
+     * If undefined, the "Math.random" will be used.
+     */
+    seedForRandom?: number;
     onTick: (this: CronScheduler) => any;
     onStart?: (this: CronScheduler) => any;
     onStop?: (this: CronScheduler) => any;
-    /**
-     * Seed for random function.
-     * If undefined or 0, the "Math.random" will be used.
-     */
-    seedForRandom?: number;
 };
 export declare class CronScheduler {
     readonly started: boolean;

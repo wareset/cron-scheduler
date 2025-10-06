@@ -8,7 +8,7 @@ import { throwError, integerMinMax } from './utils'
 
 let iteratesCount = 0
 function checkIteratesCount() {
-  if (++iteratesCount > 9e3) {
+  if (++iteratesCount >= 1e4) {
     throwError(`Max iterates count: ${iteratesCount}`)
   }
 }
@@ -57,13 +57,14 @@ function getRandomDate(
   rules: ParsedCronTimeFieldRules[],
   random: () => number
 ) {
-  let max: number | undefined
+  // const min = Math.min
+  let rand: number | undefined
   let isChanged: boolean
   // months
-  if ((max = rules[4].rand)) {
+  if ((rand = rules[4].rand)) {
     isChanged = false
-    max = integerMinMax(random(), 0, max)
-    for (; max-- > 0; ) {
+    rand = integerMinMax(random(), 0, rand)
+    for (; rand-- > 0; ) {
       if (pD.Y === npD.Y && pD.M === npD.M) {
         if (isChanged) pD.month(pD.M - 1)
         break
@@ -76,7 +77,7 @@ function getRandomDate(
   // days of week or days of month
   if (rules[5].rand || rules[3].rand) {
     isChanged = false
-    max = integerMinMax(
+    rand = integerMinMax(
       random(),
       0,
       Math.min(
@@ -84,7 +85,7 @@ function getRandomDate(
         rules[3].rand! || rules[5].rand!
       )
     )
-    for (; max-- > 0; ) {
+    for (; rand-- > 0; ) {
       if (pD.Y === npD.Y && pD.M === npD.M && pD.D === npD.D) {
         if (isChanged) pD.date(pD.D - 1)
         break
@@ -95,10 +96,10 @@ function getRandomDate(
   }
 
   // hours
-  if ((max = rules[2].rand)) {
+  if ((rand = rules[2].rand)) {
     isChanged = false
-    max = integerMinMax(random(), 0, max)
-    for (; max-- > 0; ) {
+    rand = integerMinMax(random(), 0, rand)
+    for (; rand-- > 0; ) {
       if (
         pD.Y === npD.Y &&
         pD.M === npD.M &&
@@ -114,10 +115,10 @@ function getRandomDate(
   }
 
   // minutes
-  if ((max = rules[1].rand)) {
+  if ((rand = rules[1].rand)) {
     isChanged = false
-    max = integerMinMax(random(), 0, max)
-    for (; max-- > 0; ) {
+    rand = integerMinMax(random(), 0, rand)
+    for (; rand-- > 0; ) {
       if (
         pD.Y === npD.Y &&
         pD.M === npD.M &&
@@ -134,10 +135,10 @@ function getRandomDate(
   }
 
   // seconds
-  if ((max = rules[0].rand)) {
+  if ((rand = rules[0].rand)) {
     isChanged = false
-    max = integerMinMax(random(), 0, max)
-    for (; max-- > 0; ) {
+    rand = integerMinMax(random(), 0, rand)
+    for (; rand-- > 0; ) {
       if (
         pD.Y === npD.Y &&
         pD.M === npD.M &&
