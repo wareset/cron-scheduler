@@ -92,20 +92,6 @@ function parseFieldBySlashAndDash(
     rangeMin: number,
     rangeMax: number
 
-  // Nth week day of month
-  if (rangeSrc.indexOf('#') > -1) {
-    if (type === 5) {
-      const weekDirty = rangeSrc.split('#')
-      rangeSrc = weekDirty[0]
-      week = []
-      for (let i = weekDirty.length; i-- > 1; ) {
-        week[i - 1] = unitToNumber(weekDirty[i], src, 1, 5)
-      }
-    } else {
-      throwError(`Symbol "#" not work in "${src}"`)
-    }
-  }
-
   if (rangeSrc.indexOf('W') > -1) {
     // TODO
     // if (type === 3 && rangeSrc[rangeSrc.length - 1] === 'W') {
@@ -117,7 +103,7 @@ function parseFieldBySlashAndDash(
     }
   }
 
-  if (rangeSrc[rangeSrc.length - 1] === 'L') {
+  if (rangeSrc.indexOf('L') > -1) {
     if (type === 5) {
       // is last Days Of Week
       last = true
@@ -128,6 +114,20 @@ function parseFieldBySlashAndDash(
       rangeSrc = work ? '26-31' : '28-31'
     } else {
       throwError(`Symbol "L" not work in "${src}"`)
+    }
+  }
+
+  // Nth week day of month
+  if (rangeSrc.indexOf('#') > -1) {
+    if (type === 5) {
+      const weekDirty = rangeSrc.split('#')
+      rangeSrc = weekDirty[0]
+      week = []
+      for (let i = weekDirty.length; i-- > 1; ) {
+        week[i - 1] = unitToNumber(weekDirty[i], src, 1, 5)
+      }
+    } else {
+      throwError(`Symbol "#" not work in "${src}"`)
     }
   }
 

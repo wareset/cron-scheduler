@@ -21,9 +21,9 @@ export function removeSpacesAndSplit(s: string | undefined) {
 function replaceAliasesFactory(ALIASES: { [key: string]: string }) {
   return function (s: string | undefined) {
     if (s) {
-      s = s.replace(/@?([a-z]{3,})/gi, function (_, alias: string) {
-        const aliasUpperCased = alias.toUpperCase()
-        return aliasUpperCased in ALIASES ? ALIASES[aliasUpperCased] : alias
+      s = s.replace(/@?([a-z]{1,})/gi, function (_, alias: string) {
+        alias = alias.toUpperCase()
+        return alias in ALIASES ? ALIASES[alias] : alias
       })
     }
     return s
