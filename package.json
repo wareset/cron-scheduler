@@ -1,0 +1,45 @@
+{
+  "name": "cron-scheduler",
+  "version": "1.0.0",
+  "description": "Running functions on a schedule using the cron syntax",
+  "keywords": [
+    "cron",
+    "scheduler"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wareset/cron-scheduler#readme",
+  "bugs": {
+    "url": "https://github.com/wareset/cron-scheduler/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wareset/cron-scheduler.git"
+  },
+  "author": "rease <cftcview@gmail.com>",
+  "main": "dist/index",
+  "module": "dist/index.mjs",
+  "types": "types/index.d.ts",
+  "files": [
+    "README.md",
+    "dist/**/*",
+    "types/**/*"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "dester -m --out dist",
+    "dev": "dester -mw --out dist"
+  },
+  "devDependencies": {
+    "dester": "1.0.x"
+  },
+  "peerDependencies": {
+    "typescript": "5.x"
+  }
+}
