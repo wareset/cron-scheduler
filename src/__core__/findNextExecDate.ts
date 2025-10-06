@@ -7,9 +7,9 @@ import {
 import { throwError, integerMinMax } from './utils'
 
 let iteratesCount = 0
-function checkIteratesCount() {
+function checkIteratesCount(pD: ParsedDate) {
   if (++iteratesCount >= 1e4) {
-    throwError(`Max iterates count: ${iteratesCount}`)
+    throwError(`Max iterates count: ${iteratesCount}.\nDate: ${pD._date}`)
   }
 }
 
@@ -171,7 +171,7 @@ function getNextMonth(
     pD.hours(0)
     pD.date(1)
     for (; true; ) {
-      checkIteratesCount()
+      checkIteratesCount(pD)
       pD.month(pD.M + 1)
       if (pD.M in data) break
     }
@@ -249,7 +249,7 @@ function getNextDayOfMonth(
     pD.minutes(0)
     pD.hours(0)
     for (const month = pD.M; true; ) {
-      checkIteratesCount()
+      checkIteratesCount(pD)
       pD.date(pD.D + 1)
       if (pD.M !== month) return getNextMonth(parsedCronTime, pD, rules)
       if (isValidDayOfMonth(data, pD, rules)) break
@@ -317,7 +317,7 @@ function getNextDayOfWeek(
     pD.minutes(0)
     pD.hours(0)
 
-    checkIteratesCount()
+    checkIteratesCount(pD)
     const month = pD.M
     pD.date(pD.D + 1)
     return month === pD.M
@@ -340,7 +340,7 @@ function getNextHours(
     pD.seconds(0)
     pD.minutes(0)
     for (const date = pD.D; true; ) {
-      checkIteratesCount()
+      checkIteratesCount(pD)
       pD.hours(pD.h + 1)
       if (pD.D !== date) return getNextDayOfMonth(parsedCronTime, pD, rules)
       if (pD.h in data) break
@@ -362,7 +362,7 @@ function getNextMinutes(
   if (!(pD.m in data)) {
     pD.seconds(0)
     for (const hours = pD.h; true; ) {
-      checkIteratesCount()
+      checkIteratesCount(pD)
       pD.minutes(pD.m + 1)
       if (pD.h !== hours) return getNextHours(parsedCronTime, pD, rules)
       if (pD.m in data) break
@@ -383,7 +383,7 @@ function getNextSeconds(
 
   if (!(pD.s in data)) {
     for (const minutes = pD.m; true; ) {
-      checkIteratesCount()
+      checkIteratesCount(pD)
       pD.seconds(pD.s + 1)
       if (pD.m !== minutes) return getNextMinutes(parsedCronTime, pD, rules)
       if (pD.s in data) break

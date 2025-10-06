@@ -40,7 +40,7 @@ Running functions on a schedule using the cron syntax.
 | `L` | Последний день недели/месяца | `0 0 * * 5-6L` (последняя пятница и суббота месяца) |
 |  |  | `0 0 L * *` (последний день месяца) |
 | `LW` | Последний рабочий день месяца | `0 0 LW * *` (последний рабочий день месяца) |
-| `#` | Номер недели | `0 0 * * 5#1#3` (Первая и третья пятница месяца) |
+| `#` | Номер недели | `0 0 * * 5#1#3` (первая и третья пятница месяца) |
 
 ## Установка
 
@@ -103,14 +103,14 @@ interface CronScheduler {
   // Запущен ли CronScheduler
   readonly started: boolean
   // Запускает CronScheduler
-  start: () => void
+  start: (this: CronScheduler) => void
   // Останавливает CronScheduler
-  stop: () => void
+  stop: (this: CronScheduler) => void
   // Хранит время следующего выполнения функции 'onTick'
   nextDate: Date | null
 }
 
-new CronScheduler(options)
+const cronScheduler = new CronScheduler(options)
 ```
 
 #### 2. CRON_TIME_PRESETS
@@ -142,14 +142,21 @@ CRON_TIME_PRESETS ==
   }
 
 new CronScheduler({
-  // Выполнение каждую секунду
-  cronTime: CRON_TIME_PRESETS.SECONDLY,
+  // Выполнение каждую минуту
+  cronTime: CRON_TIME_PRESETS.MINUTELY,
   // а еще можно записать так:
-  cronTime: '@SECONDLY',
+  cronTime: '@MINUTELY',
   // или даже так:
-  cronTime: 'SeCoNdLy',
+  cronTime: 'MiNuTeLy',
   // или, естественно, так:
-  cronTime: '* * * * * *',
+  cronTime: '0 * * * * *',
+  // или так:
+  cronTime: '0*****',
+  // а ещё так):
+  cronTime: '', // или '*', '**', '***', '****', '*****'
+  // Это потому, что если полей меньше 6-ти, то для секунд
+  // впереди устанавливается значение '0', а для всех остальных
+  // недостающих полей устанавливается значение '*'.
 
   onTick(this: CronScheduler) {
     console.log('onTick', this.nextDate)
@@ -258,7 +265,40 @@ for (let i = 0; i <= 12; ++i) {
 */
 ```
 
-Класс `CronScheduler` использует вспомогательный класс `ParsedDate` для правильного расчёта времени. И поэтому важно всегда выставлять правильную тайм зону, поскольку она может отличаться от нужной как на сервере, так и на клиенте.
+Класс `CronScheduler` использует вспомогательный класс `ParsedDate` для правильного расчёта времени. И поэтому важно всегда выставлять правильную тайм зону, поскольку она может отличаться от нужной, как на сервере, так и на клиенте.
+
+## Ошибки
+
+В данной библиотеке есть множество проверок на правильность заполнения поля `cronTime`. Но, всё учесть невозможно.
+
+Например:
+
+```
+0 0 0 L * 1#1
+```
+
+Эта запись означает выполнение задачи в первый понедельник месяца и одновременно в последний день месяца что, естественно, невозможно.
+
+В этом случае `CronScheduler` упадёт с ошибкой:
+
+```js
+import { CronScheduler } from 'cron-scheduler'
+
+try {
+  new CronScheduler({
+  cronTime: '0 0 0 L * 1#1',
+
+  onTick(this: CronScheduler) {
+    console.log('onTick', this.nextDate)
+  },
+})
+} catch(e) {
+  console.log(e)
+  e == new Error(
+`CronScheduler: Max iterates count: 10000.
+Date: Thu Feb 20 2053 00:00:00 GMT+0500 (GMT+05:00)`)
+}
+```
 
 ## License
 

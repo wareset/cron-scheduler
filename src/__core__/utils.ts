@@ -7,7 +7,7 @@
 
 export function throwError(error: string): never {
   const e = new Error(error)
-  e.name = 'CronError'
+  e.name = 'CronScheduler'
   throw e
 }
 
