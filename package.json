@@ -37,9 +37,7 @@
     "dev": "dester -mw --out dist"
   },
   "devDependencies": {
-    "dester": "1.0.x"
-  },
-  "peerDependencies": {
-    "typescript": "5.x"
+    "dester": "1.0.x",
+    "typescript": "*"
   }
 }
